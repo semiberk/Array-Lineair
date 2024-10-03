@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoeken in Arrays</title>
+</head>
+<body>
+    <h1>Zoeken in Arrays</h1>
+    <p id="lineair-result"></p>
+    <p id="binair-result"></p>
+
+    <script>
+        function linearSearch(array, target) {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === target) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function binarySearch(array, target, low, high) {
+            if (low > high) {
+                return false;
+            }
+            let mid = Math.floor((low + high) / 2);
+            if (array[mid] === target) {
+                return true;
+            } else if (array[mid] > target) {
+                return binarySearch(array, target, low, mid - 1);
+            } else {
+                return binarySearch(array, target, mid + 1, high);
+            }
+        }
+
+        let array = Array.from({length: 10000}, (_, i) => i + 1);
+        let target = 9999;
+
+        // Lineair zoeken
+        let startTime = performance.now();
+        let lineairResult = linearSearch(array, target);
+        let endTime = performance.now();
+        document.getElementById("lineair-result").textContent = "Lineair zoeken resultaat: " + (lineairResult ? "Gevonden" : "Niet gevonden") + " in " + (endTime - startTime) + " ms";
+
+        // Binair zoeken
+        startTime = performance.now();
+        let binairResult = binarySearch(array, target, 0, array.length - 1);
+        endTime = performance.now();
+        document.getElementById("binair-result").textContent = "Binair zoeken resultaat: " + (binairResult ? "Gevonden" : "Niet gevonden") + " in " + (endTime - startTime) + " ms";
+    </script>
+</body>
+</html>
